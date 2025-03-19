@@ -17,10 +17,11 @@ Replace the generated resources/views/components/a.blade.php file with the follo
 @props(['route' => null, 'href' => null, 'can' => null])
 @php
     $href = $href ?? ($route && Route::has($route) ? route($route) : null);
-    $active = $route && request()->routeIs($route) ? 'active' : '';
+    $active = $route && request()->routeIs($route);
 @endphp
 @if ($href && ($can || Auth::user()->can($can)))
-    <a {{ $attributes->merge(['class' => $active]) }} href="{{ $href }}">
+    <a {{ $attributes->merge(['class' => $active ? 'active' : '']) }}
+        @if ($active) aria-current="true" @endif href="{{ $href }}">
         {{ $slot }}
     </a>
 @endif
